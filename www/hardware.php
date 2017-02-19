@@ -56,8 +56,6 @@ $timeLines = array_filter($bbfiles, "grepArray");
 
 //echo implode("<br>", $matchingFiles);
 
-$arch = "";
-
 // convert files list into multi-dimensional array
 foreach($matchingFiles as $path) {
   $path = trim($path);
@@ -118,21 +116,27 @@ foreach($images as $releaseType => $branchNames) {
     if($releaseType==="unstable" && $branchName!=="master" && !$complete) continue;
     echo "<li><b>$branchName</b>";
     foreach($numbers as $number => $packages) {
-      if($releaseType!=="stable") {
-        echo " (<a href=\"https://buildbot.berlin.freifunk.net/builders/$arch/builds/$number\">$number</a>)";
-      }
-
-      // UNIXTIME 1478746672.5508087040 ./unstable/ramips/395/VERSION.txt
-      // UNIXTIME 1478746672.5508087040 ./stable/0.2.0/ar71xx/VERSION.txt
-      $search = ($releaseType!=="stable") ? "/$number/VERSION.txt" : "/$branchName/$arch/VERSION.txt";
-      $times = array_values(array_filter($timeLines, "grepArray"));
-      if(sizeof($times)>0) {
-        $timestamp = explode(" ", $times[0])[1];
-        echo " vom ".date("Y-m-d H:i:s", $timestamp);
-      }
-
-      echo "<ul>";
+      $haveBranchHeadline = false;
       foreach($packages as $package => $imgTypes) {
+        if(!$haveBranchHeadline) {
+          $haveBranchHeadline = true;
+          // have to find arch from actual image path as arch strings have changed over time (i.e., "ar71xx" vs. "ar71xx-generic")
+          $pathParts = explode("/", $imgTypes["sysupgrade"]);
+          $arch = ($releaseType!=="stable") ? $pathParts[1] : $pathParts[2];
+          // UNIXTIME 1478746672.5508087040 ./unstable/ramips/395/VERSION.txt
+          // UNIXTIME 1478746672.5508087040 ./stable/0.2.0/ar71xx/VERSION.txt
+          $search = ($releaseType!=="stable") ? "/unstable/$arch/$number/VERSION.txt" : "/stable/$branchName/$arch/VERSION.txt";
+          $times = array_values(array_filter($timeLines, "grepArray"));
+          if(sizeof($times)>0) {
+            if($releaseType!=="stable") {
+              echo " (<a href=\"https://buildbot.berlin.freifunk.net/builders/$arch/builds/$number\">$number</a>)";
+            }
+            $timestamp = explode(" ", $times[0])[1];
+            echo " vom ".date("Y-m-d H:i:s", $timestamp);
+          }
+          echo "<ul>";
+        }
+
         echo "<li>$package (<a href=\"https://wiki.freifunk.net/Berlin:Firmware#Image-Typen\">?</a>) - ";
         if(array_key_exists("factory", $imgTypes)) {
           echo "<a href=\"".$bburl.$imgTypes["factory"]."\">Erstinstallation</a>, ";
