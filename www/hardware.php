@@ -103,17 +103,22 @@ foreach($images as $releaseType => $branchNames) {
 $bburl = "http://buildbot.berlin.freifunk.net/buildbot/";
 
 echo "<html><head><title>Firmware-Images Freifunk Berlin</title></head>";
-echo "<body><h2>Vorhandene Kathleen-Images für $hardware...</h2>";
+echo "<body><h2>Freifunk Berlin Firmware-Images für $hardware...</h2>";
 echo "<ul>";
 
 $somethingListed = false;
 foreach($images as $releaseType => $branchNames) {
-  $releaseTypeL = ($releaseType==="stable") ? "Releases" : "Development";
-  echo "<li><b>$releaseTypeL</b>";
-  if($releaseType==="stable") echo " (<a href=\"https://wiki.freifunk.net/Berlin:Firmware#Releases\">Info</a>)";
-  echo "<ul>";
+  $haveReleaseHeadline = false;
   foreach($branchNames as $branchName => $numbers) {
     if($releaseType==="unstable" && $branchName!=="master" && !$complete) continue;
+    if(!$haveReleaseHeadline) {
+      $haveReleaseHeadline = true;
+      $releaseTypeL = ($releaseType==="stable") ? "Releases" : "Development";
+      echo "<li><b>$releaseTypeL</b>";
+      if($releaseType==="stable") echo " (<a href=\"https://wiki.freifunk.net/Berlin:Firmware#Releases\">Info</a>)";
+      echo "<ul>";
+    }
+
     echo "<li><b>$branchName</b>";
     foreach($numbers as $number => $packages) {
       $haveBranchHeadline = false;
@@ -154,17 +159,24 @@ foreach($images as $releaseType => $branchNames) {
     echo "</li>";
     if($releaseType==="stable" && !$complete) break;
   }
-  echo "</ul>";
-  echo "</li>";
+  if($haveReleaseHeadline) {
+    echo "</ul>";
+    echo "</li>";
+  }
 }
-if(!$somethingListed) {
+
+if($complete && !$somethingListed) {
   echo "<li><i>Keine Images verfügbar.</i></li>";
 }
 
 echo "</ul>";
 
 if(!$complete) {
-  echo "<ul><li><a href=\"/hardware?name=$hardware&complete=true\">Alle Images anzeigen</a> (auch alte und Branches)</li></ul>";
+  if($somethingListed) {
+    echo "<ul><li><a href=\"/hardware?name=$hardware&complete=true\">Auch alte Releases und Development-Branches anzeigen</a></li></ul>";
+  } else {
+    echo "<ul><li>Für diese Hardware gibt es zur Zeit keine Unterstützung in Releases oder im Development-Master.<br/><a href=\"/hardware?name=$hardware&complete=true\">Auch Development-Branches anzeigen</a>.</li></ul>";
+  }
 }
 
 echo "<ul>".
