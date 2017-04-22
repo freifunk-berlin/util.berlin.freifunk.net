@@ -34,6 +34,11 @@ function grepArray($line) {
     $search3 = "tl-wr841nd".substr($search,8);
     return (strpos($line, $search)!==false || strpos($line, $search2)!==false || strpos($line, $search3)!==false);
   }
+  if(strpos($search, "cpe210-220-")===0 || strpos($search, "cpe510-520-")===0) {
+    // hack: OpenWrt builds have combined 210/510 image, look for that, too
+    $search2 = "cpe210-220-510-520".substr($search,10);
+    return (strpos($line, $search)!==false || strpos($line, $search2)!==false);
+  }
   return (strpos($line, $search)!==false);
 }
 
