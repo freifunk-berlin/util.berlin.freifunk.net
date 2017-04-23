@@ -65,8 +65,14 @@ $timeLines = array_filter($bbfiles, "grepArray");
 foreach($matchingFiles as $path) {
   $path = trim($path);
   $ext = substr($path, -4);
-  if($ext !== ".img" && $ext !== ".bin") continue; // 0.0.0 used .bin
-  $imgType = (strpos($path, "sysupgrade")!==false) ? "sysupgrade" : "factory";
+  if($ext !== ".img" && $ext !== ".bin"  && $ext !== ".tar") continue; // 0.0.0 used .bin, ubnt-erx uses .tar
+  if(strpos($path, "sysupgrade")!==false) {
+    $imgType = "sysupgrade";
+  } else if(strpos($path, "factory")!==false) {
+    $imgType = "factory";
+  } else {
+    continue;
+  }
   $matchingFile = explode("/", $path);
   // unstable/ramips/395/default_4MB/kathleen-0.2.0-beta+3232601-ramips-mt7620-ex2700-factory.bin
   // stable/0.2.0/ramips/default/kathleen-0.2.0-ramips-mt7620-wt3020-8M-factory.bin
