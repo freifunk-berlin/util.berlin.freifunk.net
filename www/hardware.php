@@ -23,22 +23,10 @@ $hardware = $_GET["name"];
 $complete = $_GET["complete"] === "true";
 
 header("Content-Type: text/html; charset=utf-8");
-if(preg_match('/[^A-Za-z0-9\\.\\-\\_]/', $hardware) || strlen($hardware)<5 || strlen($hardware)>25 ) die("Ungültiger Gerätename.");
 
 // helper for array_filter
 function grepArray($line) {
   global $search;
-  if(strpos($search, "tl-wr841-")===0) {
-    // hack: look for wr841n(d), too
-    $search2 = "tl-wr841n".substr($search,8);
-    $search3 = "tl-wr841nd".substr($search,8);
-    return (strpos($line, $search)!==false || strpos($line, $search2)!==false || strpos($line, $search3)!==false);
-  }
-  if(strpos($search, "cpe210-220-")===0 || strpos($search, "cpe510-520-")===0) {
-    // hack: OpenWrt builds have combined 210/510 image, look for that, too
-    $search2 = "cpe210-220-510-520".substr($search,10);
-    return (strpos($line, $search)!==false || strpos($line, $search2)!==false);
-  }
   return (strpos($line, $search)!==false);
 }
 
@@ -46,12 +34,18 @@ function grepArray($line) {
 $bbfiles = file(".files.txt");
 
 // filter files list; make sure we match the right files (ubnt-nano-m vs. ubnt-nano-m-xw)
-$search = $hardware."-squashfs"; // pre-0.2.0
-$matchingFiles = array_filter($bbfiles, "grepArray");
-$search = $hardware."-factory";
-$matchingFiles = array_merge($matchingFiles, array_filter($bbfiles, "grepArray"));
-$search = $hardware."-sysupgrade";
-$matchingFiles = array_merge($matchingFiles, array_filter($bbfiles, "grepArray"));
+$matchingFiles = [];
+if(strlen($hardware)>50) die("Ungültiger Gerätename.");
+$routerids = explode(",", $hardware);
+foreach($routerids as $routerid) {
+  if(preg_match('/[^A-Za-z0-9\\.\\-\\_]/', $routerid) || strlen($routerid)<5 || strlen($routerid)>25 ) die("Ungültiger Gerätename.");
+  $search = $routerid."-squashfs"; // pre-0.2.0
+  $matchingFiles = array_merge($matchingFiles, array_filter($bbfiles, "grepArray"));
+  $search = $routerid."-factory";
+  $matchingFiles = array_merge($matchingFiles, array_filter($bbfiles, "grepArray"));
+  $search = $routerid."-sysupgrade";
+  $matchingFiles = array_merge($matchingFiles, array_filter($bbfiles, "grepArray"));
+}
 
 $search = "VERSION.txt:Firmware: git branch";
 $branchLines = array_filter($bbfiles, "grepArray");
@@ -114,7 +108,7 @@ foreach($images as $releaseType => $branchNames) {
 $bburl = "http://buildbot.berlin.freifunk.net/buildbot/";
 
 echo "<html><head><title>Firmware-Images Freifunk Berlin</title></head>";
-echo "<body><h2>Freifunk Berlin Firmware-Images für $hardware...</h2>";
+echo "<body><h2>Freifunk Berlin Firmware-Images für $routerids[0]...</h2>";
 echo "<ul>";
 
 $somethingListed = false;
