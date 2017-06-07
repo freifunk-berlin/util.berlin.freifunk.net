@@ -67,6 +67,13 @@ foreach($matchingFiles as $path) {
   } else {
     continue;
   }
+  if(strpos($path, "-eu.bin")!==false) {
+    $imgSubType = "eu";
+  } else if(strpos($path, "-us.bin")!==false) {
+    continue;
+  } else {
+    $imgSubType = "";
+  }
   $matchingFile = explode("/", $path);
   // unstable/ramips/395/default_4MB/kathleen-0.2.0-beta+3232601-ramips-mt7620-ex2700-factory.bin
   // stable/0.2.0/ramips/default/kathleen-0.2.0-ramips-mt7620-wt3020-8M-factory.bin
@@ -83,8 +90,8 @@ foreach($matchingFiles as $path) {
   } else {
     $branchName = $number;
   }
-  // echo "$releaseType / $branchName / $number / $package / $imgType / $path<br>";
-  $images[$releaseType][$branchName][$number][$package][$imgType] = $path;
+  // echo "$releaseType / $branchName / $number / $package / $imgType / $imgSubType / $path<br>";
+  $images[$releaseType][$branchName][$number][$package][$imgType][$imgSubType] = $path;
 }
 
 // sort files array
@@ -131,7 +138,7 @@ foreach($images as $releaseType => $branchNames) {
         if(!$haveBranchHeadline) {
           $haveBranchHeadline = true;
           // have to find arch from actual image path as arch strings have changed over time (i.e., "ar71xx" vs. "ar71xx-generic")
-          $pathParts = explode("/", $imgTypes["sysupgrade"]);
+          $pathParts = explode("/", $imgTypes["sysupgrade"][""]);
           $arch = ($releaseType!=="stable") ? $pathParts[1] : $pathParts[2];
           // UNIXTIME 1478746672.5508087040 ./unstable/ramips/395/VERSION.txt
           // UNIXTIME 1478746672.5508087040 ./stable/0.2.0/ar71xx/VERSION.txt
@@ -149,11 +156,14 @@ foreach($images as $releaseType => $branchNames) {
 
         echo "<li>$package (<a href=\"https://wiki.freifunk.net/Berlin:Firmware#Image-Typen\">?</a>) - ";
         if(array_key_exists("factory", $imgTypes)) {
-          echo "<a href=\"".$bburl.$imgTypes["factory"]."\">Erstinstallation</a>, ";
-          echo "<a href=\"".$bburl.$imgTypes["sysupgrade"]."\">Aktualisierung</a>";
+          echo "<a href=\"".$bburl.$imgTypes["factory"][""]."\">Erstinstallation</a>";
+          if(array_key_exists("eu", $imgTypes["factory"])) {
+            echo " (<a href=\"".$bburl.$imgTypes["factory"]["eu"]."\">EU-Version</a>)";
+          }
+          echo ", <a href=\"".$bburl.$imgTypes["sysupgrade"][""]."\">Aktualisierung</a>";
         } else {
           // Some routers, e.g., GL-AR150, have no special "factory" image
-          echo "<a href=\"".$bburl.$imgTypes["sysupgrade"]."\">Download</a>";
+          echo "<a href=\"".$bburl.$imgTypes["sysupgrade"][""]."\">Download</a>";
         }
         echo "</li>";
         $somethingListed = true;
