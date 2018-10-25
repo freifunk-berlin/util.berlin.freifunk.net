@@ -196,7 +196,8 @@ if(!$complete) {
 
 echo "<ul>".
      "<li><b>Bitte Hinweise im Wiki-Artikel <a href=\"https://wiki.freifunk.net/Berlin:Firmware\">Berlin:Firmware</a> beachten!</b></li>".
-     "<li><a href=\"https://berlin.freifunk.net/participate/howto/\">Howto</a> zur Einrichtung der Firmware</li>".
+     "<li><a href=\"https://wiki.freifunk.net/Berlin:Firmware:Howto\">Howto</a> zur Einrichtung der Firmware (Deutsch)</li>".
+     "<li><a href=\"https://wiki.freifunk.net/Berlin:Firmware:En:Howto\">Howto</a> setup the Firmware (English)</li>".
      "</ul>".
      "zu <a href=\"https://berlin.freifunk.net/\">berlin.freifunk.net</a>".
      "</body></html>";
