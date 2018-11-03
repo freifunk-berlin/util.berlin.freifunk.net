@@ -23,7 +23,7 @@ function getWikiLink($knoten) {
   $body = getUrl($url);
   $json = json_decode($body);
   foreach($json->query->results as $result) {
-    return "https:".$result->fullurl;
+    return $result->fullurl;
   }
   return false;
 }
