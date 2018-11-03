@@ -3,6 +3,7 @@ $nodename = $_SERVER["REQUEST_URI"];
 $nodename = preg_replace("/^\/update_node\//", "", $nodename);
 
 $entityBody = file_get_contents('php://input');
+$entityBody = preg_replace("/\"mac\"\:\"..\:..\:XX\:XX\:..\:..\"/", "\"mac\":\"redacted\"", $entityBody);
 $options = array(
   'http' => array(
     'method'  => 'PUT',
