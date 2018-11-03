@@ -3,12 +3,12 @@
 // https://util.berlin.freifunk.net/knoteninfo?knoten=Zwingli-Nord-2GHz&typ=wiki
 // typ: wiki, monitor, owm, hopglass
 
-$knoten = $_GET["knoten"];
+$knoten = ($_GET["knoten"] ?? "%");
 $knoten = preg_replace("/\.olsr$/", "", $knoten);
 
 if(preg_match('/[^A-Za-z0-9\\.\\-\\_]/', $knoten)) die("Ungültiger Knotenname.");
 
-$typ = $_GET["typ"];
+$typ = ($_GET["typ"] ?? "");
 
 function getUrl($url) {
   $ctx = stream_context_create(["http" => ["method" => "GET"]]);

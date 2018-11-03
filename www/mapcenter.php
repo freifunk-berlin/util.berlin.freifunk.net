@@ -3,9 +3,9 @@
 // https://util.berlin.freifunk.net/mapcenter?latlon=a,b&map=owm
 // map: owm/osm/gmap
 
-$coor = $_GET['latlon'];
+$coor = ($_GET['latlon'] ?? "a,a");
 $latlon = explode(",", $coor);
-$map = $_GET['map'];
+$map = ($_GET['map'] ?? "");
 
 if(!is_numeric($latlon[0]) || !is_numeric($latlon[1])) die("Falsche Koordinaten.");
 
