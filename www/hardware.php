@@ -19,8 +19,8 @@
 // Cronjob (util.berlin):
 // (cd /var/www/util.berlin.freifunk.net/www && curl -s https://buildbot.berlin.freifunk.net/buildbot/.files.lzma|lzcat|grep -v -F ".ipk">.files.txt.new && mv .files.txt.new .files.txt)
 
-$hardware = $_GET["name"];
-$complete = $_GET["complete"] === "true";
+$hardware = ($_GET["name"] ?? "");
+$complete = ($_GET["complete"] ?? "") === "true";
 
 header("Content-Type: text/html; charset=utf-8");
 
