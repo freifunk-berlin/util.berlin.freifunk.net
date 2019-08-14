@@ -35,7 +35,7 @@ $bbfiles = file(".files.txt");
 
 // filter files list; make sure we match the right files (ubnt-nano-m vs. ubnt-nano-m-xw)
 $matchingFiles = [];
-if(strlen($hardware)>50) die("Ungültiger Gerätename.");
+if(strlen($hardware)>100) die("Ungültiger Gerätename.");
 $routerids = explode(",", $hardware);
 foreach($routerids as $routerid) {
   if(preg_match('/[^A-Za-z0-9\\.\\-\\_]/', $routerid) || strlen($routerid)<5 || strlen($routerid)>25 ) die("Ungültiger Gerätename.");
