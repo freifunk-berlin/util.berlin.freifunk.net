@@ -11,9 +11,9 @@ if(!is_numeric($latlon[0]) || !is_numeric($latlon[1])) die("Falsche Koordinaten.
 
 $latw = 0.004;
 $lonw = 0.01;
-$owmurl = "http://openwifimap.net/map.html#bbox=" . ($latlon[0] - ($latw/2)) . "," . ($latlon[1] - ($lonw/2)) . "," . ($latlon[0] + ($latw/2)) . "," . ($latlon[1] + ($lonw/2));
-$osmurl = "http://www.openstreetmap.org/?mlat=$latlon[0]&mlon=$latlon[1]&zoom=16&layers=M";
-$gmurl = "http://maps.google.com/maps?ll=$latlon[0],$latlon[1]&spn=0.01,0.01&t=m";
+$owmurl = "https://openwifimap.net/map.html#bbox=" . ($latlon[0] - ($latw/2)) . "," . ($latlon[1] - ($lonw/2)) . "," . ($latlon[0] + ($latw/2)) . "," . ($latlon[1] + ($lonw/2));
+$osmurl = "https://www.openstreetmap.org/?mlat=$latlon[0]&mlon=$latlon[1]&zoom=16&layers=M";
+$gmurl = "https://maps.google.com/maps?ll=$latlon[0],$latlon[1]&spn=0.01,0.01&t=m";
 
 if($map == "owm") {
   $url = $owmurl;

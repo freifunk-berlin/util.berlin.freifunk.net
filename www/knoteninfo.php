@@ -28,7 +28,7 @@ function getWikiLink($knoten) {
   return false;
 }
 
-$monurl = "http://monitor.berlin.freifunk.net/host.php?h=".$knoten;
+$monurl = "https://monitor.berlin.freifunk.net/host.php?h=".$knoten;
 $owmurl = "https://openwifimap.net/#detail?node=".$knoten.".olsr";
 $hgurl = "https://hopglass.berlin.freifunk.net/#!v:m;n:".$knoten.".olsr";
 

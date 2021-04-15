@@ -112,7 +112,7 @@ foreach($images as $releaseType => $branchNames) {
 
 //var_dump($images);
 
-$bburl = "http://buildbot.berlin.freifunk.net/buildbot/";
+$bburl = "https://buildbot.berlin.freifunk.net/buildbot/";
 
 echo "<html><head><title>Firmware-Images Freifunk Berlin</title></head>";
 echo "<body><h2>Freifunk Berlin Firmware-Images für $routerids[0]...</h2>";
