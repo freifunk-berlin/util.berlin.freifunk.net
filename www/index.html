@@ -1,17 +1,160 @@
-<body>
-<pre>
-// https://util.berlin.freifunk.net/knoteninfo?knoten=Zwingli-Nord-2GHz&typ=wiki
-// typ (optional): wiki, monitor, owm, hopglass
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
 
-// https://util.berlin.freifunk.net/mapcenter?latlon=a,b&map=owm
-// map: owm/osm/gmap
+        <title>Werkzeuge für Freifunk Berlin</title>
+        <meta name="description" content="Die Seite hält eine Sammlung nützlicher kleiner Werkzeuge für Freifunk Berlin bereit."/>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 20px;
+                max-width: 800px;
+            }
 
-// https://util.berlin.freifunk.net/hardware?name=gl-ar150
-// Berliner Firmware-Downloads
+            h2 {
+                margin-top: 40px;
+                margin-bottom: 10px;
+            }
 
-// http://util.berlin.freifunk.net/update_node/
-// Berliner OWM-API-Endpoint (identisch zu api.openwifimap.net)
-</pre>
-Du kannst <a href="https://github.com/freifunk-berlin/util.berlin.freifunk.net">auf Github</a> zu dieser Software beitragen und &Auml;nderungen besprechen.
-<br/>Infos zu diesem Server siehe Wiki-Artikel <a href="https://wiki.freifunk.net/Berlin:Server#util.berlin.freifunk.net">Berlin:Server</a>.
-</body>
+            p {
+                margin-top: 0;
+            }
+
+            code {
+                background-color: #f7f7f7;
+                padding: 10px;
+                border-radius: 5px;
+                font-size: 14px;
+                display: block;
+                margin-bottom: 10px;
+            }
+
+            form {
+                margin-bottom: 20px;
+            }
+
+            label {
+                display: inline-block;
+                width: 200px;
+                font-weight: bold;
+            }
+
+            input[type="text"],
+            select {
+                width: 200px;
+                padding: 5px;
+                margin-bottom: 10px;
+            }
+
+            input[type="submit"] {
+                background-color: #4CAF50;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin-top: 10px;
+                cursor: pointer;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Werkzeuge für Freifunk Berlin</h1>
+        <p>Die Seite hält eine Sammlung nützlicher kleiner Werkzeuge für Freifunk Berlin bereit.</p>
+
+        <h2>Knoteninfo</h2>
+        <p>Dieses Tool erlaubt es unter Eingabe des Knotennamens zu den zugehörigen Zielseiten im Wiki, Monitor, OWM und Hopglass zu springen, falls diese existieren.</p>
+        <code>
+            // https://util.berlin.freifunk.net/knoteninfo?knoten=zwingli-core&typ=wiki<br>
+            // knoten (string): name of the node<br>
+            // typ (enum, optional): wiki, monitor, owm, hopglass
+        </code>
+        <form action="https://util.berlin.freifunk.net/knoteninfo" method="GET" target="_blank">
+            <label for="knoten">Node Name:</label>
+            <input type="text" id="knoten" name="knoten" required>
+            <br>
+            <label for="typ">Type:</label>
+            <select id="typ" name="typ">
+                <option value="wiki">Wiki</option>
+                <option value="monitor">Monitor</option>
+                <option value="owm">OWM</option>
+                <option value="hopglass">Hopglass</option>
+            </select>
+            <br>
+            <input type="submit" value="Submit">
+        </form>
+        <h2>Durchsuchbare Knotenliste</h2>
+        <p>Dieses Tool stellt eine durchsuchbare Knotenliste mit Firmware-Versionen und Kontaktdaten bereit.</p>
+        <form action="https://util.berlin.freifunk.net/nodelist.html" method="GET" target="_blank">
+            <input type="submit" value="Zum Tool">
+        </form>
+
+        <h2>Kartenzentrierung</h2>
+        <p>Dieses Tool nimm durch Komma getrennte Koordinaten entgegen und erlaubt es die OWM, OSM und GMap Karte auf diese zu zentrieren.</p>
+        <code>
+            // https://util.berlin.freifunk.net/mapcenter?latlon=a,b&map=owm<br>
+            // latlon (sting): latitude and longitude separated by ","<br>
+            // map (enum): owm/osm/gmap
+        </code>
+        <form action="https://util.berlin.freifunk.net/mapcenter" method="GET" target="_blank">
+            <label for="latlon">Latitude, Longitude:</label>
+            <input type="text" id="latlon" name="latlon" required>
+            <br>
+            <label for="map">Map:</label>
+            <select id="map" name="map">
+                <option value="owm">OWM</option>
+                <option value="osm">OSM</option>
+                <option value="gmap">GMap</option>
+            </select>
+            <br>
+            <input type="submit" value="Submit">
+        </form>
+
+        <h2>Firmware-Downloads</h2>
+        <p>Dieses Tool listet auf Basis eines Routermodels Informationen zur zugehörigen Firmware auf. Das Tool ist veraltet und es sollte stattdessen der neuere
+            <a href="https://selector.berlin.freifunk.net/">Firmware-Selector verwendet werden.</a>
+        </p>
+        <code>
+            // https://util.berlin.freifunk.net/hardware?name=gl-ar150<br>
+            // name (sting): model of the router<br>
+        </code>
+        <form action="https://util.berlin.freifunk.net/hardware" method="GET" target="_blank">
+            <label for="name">Router Model:</label>
+            <input type="text" id="name" name="name" required>
+            <br>
+            <input type="submit" value="Submit">
+        </form>
+
+        <h2>Knoten von Karte entfernen</h2>
+        <p>Dieses Tool löscht einen Node von der OWM und Hopglass-Karte indem es ein Updat mit leeren Informationen sendet. Es ist ausschließlich dazu gedacht zum Test aufgesetzte Knoten und dauerhaft entfernte Knoten zu löschen.</p>
+        <code>
+            // https://util.berlin.freifunk.net/delete-node-from-map?name=example<br>
+            // name (sting): name of the node<br>
+        </code>
+        <form action="https://util.berlin.freifunk.net/delete-node-from-map.php" method="GET" target="_blank">
+            <label for="node-name">Node Name:</label>
+            <input type="text" id="node-name" name="name" required>
+            <br>
+            <input type="submit" value="Submit">
+        </form>
+
+        <h2>Node-Update</h2>
+        <p>Berliner OWM-API-Endpoint (identisch zu api.openwifimap.net)</p>
+        <code>
+            // http://util.berlin.freifunk.net/update_node/
+        </code>
+        <br>
+        <p>
+            Du kannst
+            <a href="https://github.com/freifunk-berlin/util.berlin.freifunk.net">auf Github</a>
+            zu dieser Software beitragen und &Auml;nderungen besprechen.
+            <br/>Infos zu diesem Server siehe Wiki-Artikel
+            <a href="https://wiki.freifunk.net/Berlin:Server#util.berlin.freifunk.net">Berlin:Server</a>.
+        </p>
+    </body>
+</html>
