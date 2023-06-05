@@ -58,3 +58,5 @@ jobs:
           # Change to 'master' if your main branch differs
           DEFAULT_BRANCH: master
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Do not lint 3rd party CSS and JavaScript libraries
+          FILTER_REGEX_EXCLUDE: .*/(css|javascript)/3rd-party/.*
