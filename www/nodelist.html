@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+
+        <title>Freifunk Berlin Searchable Node List</title>
+        <link rel="stylesheet" type="text/css" href="css/3rd-party/jquery.dataTables.min.css">
+        <link rel="stylesheet" type="text/css" href="css/3rd-party/searchBuilder.dataTables.min.css">
+        <meta name="robots" content="noindex">
+    </head>
+    <body>
+        <table id="node-table" class="display">
+            <thead>
+                <tr>
+                    <th>Firmware Release</th>
+                    <th>Contact</th>
+                    <th>Hostname</th>
+                    <th>Hardware Model</th>
+                </tr>
+            </thead>
+        </table>
+
+        <script src="javascript/3rd-party/jquery-3.6.0.min.js"></script>
+        <script src="javascript/3rd-party/jquery.dataTables.min.js"></script>
+        <script src="javascript/3rd-party/dataTables.searchBuilder.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('#node-table').DataTable({
+                    ajax: {
+                        url: 'https://util.berlin.freifunk.net/nodelist.json.php',
+                        dataSrc: 'nodes'
+                    },
+                    columns: [
+                        {
+                            data: 'nodeinfo.software.firmware.release'
+                        }, {
+                            data: 'nodeinfo.owner.contact'
+                        }, {
+                            data: 'nodeinfo.hostname'
+                        }, {
+                            data: 'nodeinfo.hardware.model'
+                        }
+                    ],
+                    paging: false,
+                    searching: true,
+                    ordering: true,
+                    dom: 'Qlfrtip',
+                    searchBuilder: true
+                });
+            });
+        </script>
+    </body>
+</html>
