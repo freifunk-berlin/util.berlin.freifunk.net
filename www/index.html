@@ -116,18 +116,10 @@
         </form>
 
         <h2>Firmware-Downloads</h2>
-        <p>Dieses Tool listet auf Basis eines Routermodels Informationen zur zugehörigen Firmware auf. Das Tool ist veraltet und es sollte stattdessen der neuere
-            <a href="https://selector.berlin.freifunk.net/">Firmware-Selector verwendet werden.</a>
+        <p>Der Freifunk Firmware Selector listet auf Basis der Eingabe eines Routermodels die passenden Firmware-Downloads nebst zugehöriger Prüfsummen auf.
         </p>
-        <code>
-            // https://util.berlin.freifunk.net/hardware?name=gl-ar150<br>
-            // name (sting): model of the router<br>
-        </code>
-        <form action="https://util.berlin.freifunk.net/hardware" method="GET" target="_blank">
-            <label for="name">Router Model:</label>
-            <input type="text" id="name" name="name" required>
-            <br>
-            <input type="submit" value="Submit">
+        <form action="https://selector.berlin.freifunk.net/" method="GET" target="_blank">
+            <input type="submit" value="Zum Tool">
         </form>
 
         <h2>Knoten von Karte entfernen</h2>
