@@ -1,0 +1,13 @@
+<NetworkLink>
+  <name>Freifunk Berlin Line-of-Sight visualiser</name>
+  <flyToView>0</flyToView>
+  <open>1</open>
+  <visibility>1</visibility>
+  <refreshVisibility>1</refreshVisibility>
+  <Link>
+    <href>https://util.berlin.freifunk.net/line-of-sight.php</href>
+    <refreshMode>onChange</refreshMode>
+    <viewRefreshMode>onRequest</viewRefreshMode>
+    <viewFormat>VARS=[cameraLon],[cameraLat],[cameraAlt]</viewFormat>
+  </Link>
+</NetworkLink>
