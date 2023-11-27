@@ -10,9 +10,12 @@
 // /m/ -> map (hopglass)
 // /s/ -> statistics (monitor)
 
-$path_elements = getPathElements($_SERVER['REQUEST_URI'], $_SERVER['SCRIPT_NAME']);
+// $path_elements = getPathElements($_SERVER['REQUEST_URI'], $_SERVER['SCRIPT_NAME']);
 
-if (count($_GET)) {
+$path = $_GET['path'];
+$path_elements = explode("/", $path);
+
+if ($_GET["knoten"]) {
   $knoten = ($_GET["knoten"] ?? "%");
   $typ = ($_GET["typ"] ?? "");
 } else if (count($path_elements) == 2) {
