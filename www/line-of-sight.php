@@ -54,7 +54,8 @@ if (isset($cameraAlt) && $cameraAlt < 250) {
     $survey_location['name'] = "Survey Location";
 
     foreach ($locations as $location) {
-        if ($location['alt'] > 0) {
+        // check if alt is actually numeric as some locations provide strings etc
+        if (is_numeric($location['alt']) and $location['alt'] > 0) {
             unset($link);
             $link['name'] = $location['name'];
             $link['lat'] = $location['lat'];
